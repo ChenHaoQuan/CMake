@@ -1004,7 +1004,16 @@ void cmComputeLinkInformation::AddTargetItem(std::string const& item,
   }
 
   // Now add the full path to the library.
+
+  const char* prefix = target->GetProperty("SPELLING_NAME_PREFIX");
+  if (prefix && prefix[0])
+    this->Items.emplace_back(prefix, false, target);
+
   this->Items.emplace_back(item, true, target);
+
+  const char* suffix = target->GetProperty("SPELLING_NAME_SUFFIX");
+  if (suffix && suffix[0])
+    this->Items.emplace_back(suffix, false, target);
 }
 
 void cmComputeLinkInformation::AddFullItem(std::string const& item)
